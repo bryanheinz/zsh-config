@@ -5,8 +5,8 @@ export PATH
 
 # import personal ZSH functions and alias'
 # https://superuser.com/a/1140782
-. "$HOME/Library/Mobile Documents/com~apple~CloudDocs/_usr/configs/zsh/alias.zsh"
-. "$HOME/Library/Mobile Documents/com~apple~CloudDocs/_usr/configs/zsh/functions.zsh"
+. "$HOME/Documents/repos/zsh-config/zsh/alias.zsh"
+. "$HOME/Documents/repos/zsh-config/zsh/functions.zsh"
 
 # disable paste escaping with curl
 DISABLE_MAGIC_FUNCTIONS=true
