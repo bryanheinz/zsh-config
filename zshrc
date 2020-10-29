@@ -14,6 +14,9 @@ DISABLE_MAGIC_FUNCTIONS=true
 # enable prompt for command correction
 ENABLE_CORRECTION="true"
 
+# set autocomplete style
+zstyle ':completion:*' menu select
+
 # search history based on current line
 # https://coderwall.com/p/jpj_6q/zsh-better-history-searching-with-arrow-keys
 autoload -U up-line-or-beginning-search
