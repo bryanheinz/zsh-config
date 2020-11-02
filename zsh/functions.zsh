@@ -19,6 +19,10 @@ gitig () {
     git push origin $(git branch --show-current)
 }
 
+gitpush () {
+    git push origin $(git branch --show-current)
+}
+
 # shortcut to add all CWD files to git, commit them, and then push them to the current branch
 gitpusha () {
     git add ./*

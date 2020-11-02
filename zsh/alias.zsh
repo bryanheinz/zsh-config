@@ -7,7 +7,6 @@ alias pingl="while true; do ping -c 100 google.com | tail -2; echo ''; done"
 
 # git shortcuts
 alias gitta="git add "
-alias gitpush="git push origin $(git branch --show-current)"
 alias gitpa="git push origin alpha"
 alias gitreset="git reset --hard HEAD"
 alias gitcom="git commit -m"
