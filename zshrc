@@ -1,4 +1,5 @@
 path+=("$HOME/Library/Mobile Documents/com~apple~CloudDocs/_usr/bin")
+path+=("$HOME/Documents/repos/bin")
 path+=("/usr/local/sbin")
 export PATH
 

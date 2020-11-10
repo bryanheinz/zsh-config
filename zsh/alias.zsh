@@ -38,6 +38,9 @@ alias dcufr="docker-compose up -d --force-recreate"
 # shortcut to get WAN IP address
 alias getip="curl ifconfig.co"
 
+# bin shortcuts
+alias ms="$HOME/Documents/repos/bin/munki_scripts"
+
 # CLI rewrites
 alias ll="ls -lhA"
 alias ls="ls -G"
