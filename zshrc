@@ -6,8 +6,10 @@ export PATH
 
 # import personal ZSH functions and alias'
 # https://superuser.com/a/1140782
-. "$HOME/Documents/repos/zsh-config/zsh/alias.zsh"
-. "$HOME/Documents/repos/zsh-config/zsh/functions.zsh"
+# . "$HOME/Documents/repos/zsh-config/zsh/alias.zsh"
+# . "$HOME/Documents/repos/zsh-config/zsh/functions.zsh"
+. "/usr/local/zsh-config/zsh/alias.zsh"
+. "/usr/local/zsh-config/zsh/functions.zsh"
 
 # disable paste escaping with curl
 DISABLE_MAGIC_FUNCTIONS=true
