@@ -5,3 +5,4 @@ __pycache__
 Podfile.lock
 Pods
 *.xcworkspace
+custom/
