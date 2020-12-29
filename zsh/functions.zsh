@@ -16,7 +16,7 @@ gitig () {
     git add .gitignore
     git commit -m "updated .gitignore"
     # git push origin $(git symbolic-ref --short HEAD)
-    git push origin $(git branch --show-current)
+    # git push origin $(git branch --show-current)
 }
 
 gitpush () {
