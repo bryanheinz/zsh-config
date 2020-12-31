@@ -12,6 +12,12 @@ export PATH
 # Functions & Alias'
 
 
+# iTerm Shell Integration #
+[[ -f "${HOME}/.iterm2_shell_integration.zsh" ]] \
+    && source "${HOME}/.iterm2_shell_integration.zsh"
+# iTerm Shell Integration #
+
+
 # !MISC #
 # disable paste escaping with curl
 DISABLE_MAGIC_FUNCTIONS=true
@@ -91,7 +97,6 @@ if [[ -f /usr/bin/sw_vers \
     autoload -Uz vcs_info
     precmd_vcs_info() { vcs_info }
     precmd_functions+=( precmd_vcs_info )
-    setopt prompt_subst
     # RPROMPT=\$vcs_info_msg_0_
     # zstyle ':vcs_info:git:*' formats '(%b)%r%f'
     zstyle ':vcs_info:git:*' formats '(%b)%f'
@@ -103,6 +108,9 @@ fi
 # !Prompt #
 NEWLINE=$'\n'
 isSSH=$(ps ax | grep "sshd:" | grep -v grep)
+# required for substitution to work
+# https://unix.stackexchange.com/a/434697
+setopt PROMPT_SUBST
 if [[ "$USER" == "root" && ( -n $isSSH ) ]]; then
     PROMPT='${NEWLINE} %B%F{yellow}${USER}@${HOST}%f : %B%F{cyan}%3~%f%b %F{magenta}${vcs_info_msg_0_}${NEWLINE}%f %(?.%BSSH%f %F{red}ROOT%f %F{green}▶.%F{red}%? ▶)%f '
 elif [[ "$USER" == "root" ]]; then
@@ -115,8 +123,3 @@ else
     PROMPT='${NEWLINE} ${USER} : %B%F{cyan}%3~%f%b %F{magenta}${vcs_info_msg_0_}${NEWLINE}%f %(?.%F{green}▶.%F{red}%? ▶)%f '
 fi
 # Prompt #
-
-
-# iTerm Shell Integration #
-test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
-# iTerm Shell Integration #
