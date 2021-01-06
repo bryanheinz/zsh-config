@@ -53,3 +53,13 @@ _nova () {
 getvid () {
     /usr/local/bin/youtube-dl -w -f "(bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best)" --merge-output-format "mp4" -o "%(title)s.%(ext)s" "$1"
 }
+
+# autopkg update command
+auti () {
+    if [[ $1 == "--all" ]]; then
+        echo "updating all recipe trust info"
+        autopkg update-trust-info /Volumes/storage/autopkg/recipe_overrides/*
+    else
+        autopkg update-trust-info "$1"
+    fi
+}

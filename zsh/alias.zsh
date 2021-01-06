@@ -41,6 +41,9 @@ alias getip="curl ifconfig.co"
 # bin shortcuts
 alias ms="$HOME/Documents/repos/bin/munki_scripts"
 
+# autopkg shortcuts
+alias avti="autopkg verify-trust-info"
+
 # CLI rewrites
 alias ll="ls -lhA"
 alias ls="ls -G"
