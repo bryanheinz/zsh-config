@@ -92,8 +92,13 @@ setupUser() {
 [[ -n $print_help ]] && script_help
 
 # download config
-curl -s -L https://github.com/bryanheinz/zsh-config/archive/main.tar.gz \
-    -o /tmp/zsh-config.tar.gz
+if [[ -f /usr/bin/curl ]]; then
+    curl -s -L https://github.com/bryanheinz/zsh-config/archive/main.tar.gz \
+        -o /tmp/zsh-config.tar.gz
+else
+    wget https://github.com/bryanheinz/zsh-config/archive/main.tar.gz \
+        -o /tmp/zsh-config.tar.gz
+fi
 # create config folder if it doesn't exist
 [[ ! -d "$zshDir" ]] && sudo mkdir $zshDir
 # untar config into the config folder
