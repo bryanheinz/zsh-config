@@ -67,6 +67,10 @@ zle -N down-line-or-beginning-search
 # resolves an issue when SSH'd into linux; OG escape sequence didn't work
 bindkey "$terminfo[kcuu1]" up-line-or-beginning-search # Up
 bindkey "$terminfo[kcud1]" down-line-or-beginning-search # Down
+# these new bind keys don't seem to work outside of SSH'd into a linux server
+# so i'm going to try both!
+bindkey "^[[A" up-line-or-beginning-search # Up
+bindkey "^[[B" down-line-or-beginning-search # Down
 # Setup History #
 
 
