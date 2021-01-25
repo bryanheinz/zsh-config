@@ -38,6 +38,10 @@ alias dcufr="docker-compose up -d --force-recreate"
 # shortcut to get WAN IP address
 alias getip="curl ifconfig.co"
 
+# munki shortcuts
+alias msu="/usr/local/munki/managedsoftwareupdate"
+alias msui="/usr/local/munki/managedsoftwareupdate --installonly"
+
 # bin shortcuts
 alias ms="$HOME/Documents/repos/bin/munki_scripts"
 
