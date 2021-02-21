@@ -40,8 +40,15 @@ alias dpsa="docker ps -a --format 'table {{.ID}}\t{{.Names}}\t{{.Image}}\t{{.Sta
 # shortcut to get WAN IP address
 alias getip="curl ifconfig.co"
 
+# munki shortcuts
+alias msu="/usr/local/munki/managedsoftwareupdate"
+alias msui="/usr/local/munki/managedsoftwareupdate --installonly"
+
 # bin shortcuts
 alias ms="$HOME/Documents/repos/bin/munki_scripts"
+
+# autopkg shortcuts
+alias avti="autopkg verify-trust-info"
 
 # CLI rewrites
 alias ll="ls -lhA"
