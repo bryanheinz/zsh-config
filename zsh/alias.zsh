@@ -31,8 +31,10 @@ alias ssh_proxy="ssh -D 4020"
 alias ssh_vnc="echo -e '\nPort 2000\n';ssh -L 2000:localhost:5900"
 
 # docker shortcuts
+alias dc="docker compose"
 alias dcu="docker-compose up -d"
 alias dcd="docker-compose down"
+alias dcb="docker-compose build"
 alias dcufr="docker-compose up -d --force-recreate"
 alias dps="docker ps --format 'table {{.ID}}\t{{.Names}}\t{{.Image}}\t{{.Status}}'"
 alias dpsa="docker ps -a --format 'table {{.ID}}\t{{.Names}}\t{{.Image}}\t{{.Status}}'"
@@ -54,7 +56,8 @@ alias avti="autopkg verify-trust-info"
 alias ll="ls -lhA"
 alias ls="ls -G"
 alias ..="cd .."
-alias grep="grep --color=auto"
+alias grep="grep --color=auto -i"
+alias grepS="grep --color=auto"
 
 
 # personal folder shortcuts

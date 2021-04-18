@@ -98,6 +98,7 @@ autoload -Uz compinit && compinit -u
 # way on Linux as macOS since the stub exists.
 if [[ -f /usr/bin/sw_vers \
     && -f /Library/Developer/CommandLineTools/usr/bin/git \
+    || -f /Applications/Xcode.app/Contents/Developer/usr/bin/git \
     || ! -f /usr/bin/sw_vers \
     && -f $(which git) ]]; then
     autoload -Uz vcs_info
