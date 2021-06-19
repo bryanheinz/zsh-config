@@ -35,13 +35,16 @@ alias ssh_proxy="ssh -D 4020"
 alias ssh_vnc="echo -e '\nPort 2000\n';ssh -L 2000:localhost:5900"
 
 # docker shortcuts
+alias dip="docker image prune"
+alias dps="docker ps --format 'table {{.ID}}\t{{.Names}}\t{{.Image}}\t{{.Status}}'"
+alias dpsa="docker ps -a --format 'table {{.ID}}\t{{.Names}}\t{{.Image}}\t{{.Status}}'"
+
+# docker compose shortcuts
 alias dc="docker compose"
 alias dcu="docker-compose up -d"
 alias dcd="docker-compose down"
 alias dcb="docker-compose build"
 alias dcufr="docker-compose up -d --force-recreate"
-alias dps="docker ps --format 'table {{.ID}}\t{{.Names}}\t{{.Image}}\t{{.Status}}'"
-alias dpsa="docker ps -a --format 'table {{.ID}}\t{{.Names}}\t{{.Image}}\t{{.Status}}'"
 
 # shortcut to get WAN IP address
 alias getip="curl ifconfig.co"
