@@ -3,6 +3,15 @@ path+=("$HOME/Documents/repos/bin")
 path+=("/usr/local/sbin")
 export PATH
 
+# python virtualenvwrapper setup
+if [[ -f "/usr/local/bin/virtualenvwrapper.sh" ]]; then
+    VIRTUALENVWRAPPER_PYTHON=/usr/bin/python3
+    export WORKON_HOME=$HOME/.virtualenvs
+    export PROJECT_HOME=$HOME/dev/python
+    export VIRTUALENVWRAPPER_WORKON_CD=1
+    source /usr/local/bin/virtualenvwrapper.sh
+fi
+
 
 # !Functions & Alias'
 # import personal ZSH functions and alias'
