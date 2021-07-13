@@ -3,6 +3,15 @@ path+=("$HOME/Documents/repos/bin")
 path+=("/usr/local/sbin")
 export PATH
 
+# python virtualenvwrapper setup
+if [[ -f "/usr/local/bin/virtualenvwrapper.sh" ]]; then
+    VIRTUALENVWRAPPER_PYTHON=/usr/bin/python3
+    export WORKON_HOME=$HOME/.virtualenvs
+    export PROJECT_HOME=$HOME/dev/python
+    export VIRTUALENVWRAPPER_WORKON_CD=1
+    source /usr/local/bin/virtualenvwrapper.sh
+fi
+
 
 # !Functions & Alias'
 # import personal ZSH functions and alias'
@@ -98,6 +107,7 @@ autoload -Uz compinit && compinit -u
 # way on Linux as macOS since the stub exists.
 if [[ -f /usr/bin/sw_vers \
     && -f /Library/Developer/CommandLineTools/usr/bin/git \
+    || -f /Applications/Xcode.app/Contents/Developer/usr/bin/git \
     || ! -f /usr/bin/sw_vers \
     && -f $(which git) ]]; then
     autoload -Uz vcs_info
@@ -113,15 +123,17 @@ fi
 
 # !Prompt #
 NEWLINE=$'\n'
-isSSH=$(ps ax | grep "sshd:" | grep -v grep)
+# isSSH=$(ps ax | grep "sshd:" | grep -v grep)
 # required for substitution to work
 # https://unix.stackexchange.com/a/434697
 setopt PROMPT_SUBST
-if [[ "$USER" == "root" && ( -n $isSSH ) ]]; then
+# if [[ "$USER" == "root" && ( -n $isSSH ) ]]; then
+if [[ "$USER" == "root" && ( -n $SSH_CONNECTION ) ]]; then
     PROMPT='${NEWLINE} %B%F{yellow}${USER}@${HOST}%f : %B%F{cyan}%3~%f%b %F{magenta}${vcs_info_msg_0_}${NEWLINE}%f %(?.%BSSH%f %F{red}ROOT%f %F{green}▶.%F{red}%? ▶)%f '
 elif [[ "$USER" == "root" ]]; then
     PROMPT='${NEWLINE} %B%F{cyan}%3~%f%b %F{magenta}${vcs_info_msg_0_}${NEWLINE}%f %(?.%B%F{red}ROOT%f %F{green}▶.%F{red}%? ▶)%f '
-elif [[ -n $isSSH ]]; then
+elif [[ -n $SSH_CONNECTION ]]; then
+# elif [[ -n $isSSH ]]; then
     PROMPT='${NEWLINE} %B%F{yellow}${USER}@${HOST}%f : %B%F{cyan}%3~%f%b %F{magenta}${vcs_info_msg_0_}${NEWLINE}%f %(?.%BSSH%f %F{green}▶.%F{red}%? ▶)%f '
 else
     # cyan current path with 2 parents, magenta git branch, new line green

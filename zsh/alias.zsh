@@ -1,3 +1,7 @@
+# personal folder shortcuts
+dev="$HOME/Documents/dev"
+config="$HOME/Library/Mobile Documents/com~apple~CloudDocs/_usr/configs"
+
 # ping shortcuts
 alias pc="ping 1.1" # ping CloudFlare DNS
 alias pg="ping google.com"
@@ -31,8 +35,15 @@ alias ssh_proxy="ssh -D 4020"
 alias ssh_vnc="echo -e '\nPort 2000\n';ssh -L 2000:localhost:5900"
 
 # docker shortcuts
+alias dip="docker image prune"
+alias dps="docker ps --format 'table {{.ID}}\t{{.Names}}\t{{.Image}}\t{{.Status}}'"
+alias dpsa="docker ps -a --format 'table {{.ID}}\t{{.Names}}\t{{.Image}}\t{{.Status}}'"
+
+# docker compose shortcuts
+alias dc="docker compose"
 alias dcu="docker-compose up -d"
 alias dcd="docker-compose down"
+alias dcb="docker-compose build"
 alias dcufr="docker-compose up -d --force-recreate"
 
 # shortcut to get WAN IP address
@@ -56,9 +67,5 @@ else
     alias ls="ls -G"
 fi
 alias ..="cd .."
-alias grep="grep --color=auto"
-
-
-# personal folder shortcuts
-dev="$HOME/Documents/dev"
-config="$HOME/Library/Mobile Documents/com~apple~CloudDocs/_usr/configs"
+alias grep="grep --color=auto -i"
+alias grepS="grep --color=auto"

@@ -63,3 +63,13 @@ auti () {
         autopkg update-trust-info "$1"
     fi
 }
+
+# functions to start/stop sshuttle
+proxyme() {
+    sshuttle_conf="$config/sshuttle.conf"
+    sshuttle @$sshuttle_conf -D $@
+}
+
+proxy_down() {
+    kill $(cat /tmp/sshuttle.pid)
+}
