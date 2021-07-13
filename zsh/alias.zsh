@@ -50,7 +50,11 @@ alias avti="autopkg verify-trust-info"
 
 # CLI rewrites
 alias ll="ls -lhA"
-alias ls="ls -G"
+if [[ -f /etc/issue ]]; then
+    alias ls="ls --color"
+else
+    alias ls="ls -G"
+fi
 alias ..="cd .."
 alias grep="grep --color=auto"
 
