@@ -34,6 +34,9 @@ alias ssh_proxy="ssh -D 4020"
 # shortcut to start an SSH tunnel VNC session
 alias ssh_vnc="echo -e '\nPort 2000\n';ssh -L 2000:localhost:5900"
 
+# shortcut for reading certs
+alias certcat="openssl x509 -text -noout -in"
+
 # docker shortcuts
 alias dip="docker image prune"
 alias dps="docker ps --format 'table {{.ID}}\t{{.Names}}\t{{.Image}}\t{{.Status}}'"
