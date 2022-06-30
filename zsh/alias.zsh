@@ -20,6 +20,7 @@ alias getkey="cat ~/.ssh/localkey.pub | pbcopy"
 
 # use pwgen to generate 10x 15 character passwords
 alias getpass="pwgen -c -n -y -s -1 15 10"
+alias passme="pwgen -c -n -y -s -1 15 10"
 
 # nmap scan all ports
 alias scanall="nmap -p 1-65535"
@@ -61,6 +62,9 @@ alias ms="$HOME/Documents/repos/bin/munki_scripts"
 
 # autopkg shortcuts
 alias avti="autopkg verify-trust-info"
+
+# remove macOS quarantine bit from a binary
+alias setitfree="sudo xattr -r -d com.apple.quarantine"
 
 # CLI rewrites
 alias ll="ls -lhA"
