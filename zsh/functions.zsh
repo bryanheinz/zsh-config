@@ -73,3 +73,12 @@ proxyme() {
 proxy_down() {
     kill $(cat /tmp/sshuttle.pid)
 }
+
+# macOS function to show logs
+# $1 == search message
+# $2 == timeframe to search for logs
+logg() {
+    MSG='eventMessage contains "'"$1"'"'
+    /usr/bin/sudo /usr/bin/log show --info --debug --predicate \
+        ${MSG} --last $2
+}
