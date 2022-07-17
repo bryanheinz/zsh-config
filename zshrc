@@ -111,12 +111,17 @@ if [[ -f /usr/bin/sw_vers \
     || ! -f /usr/bin/sw_vers \
     && -f $(which git) ]]; then
     autoload -Uz vcs_info
-    precmd_vcs_info() { vcs_info }
-    precmd_functions+=( precmd_vcs_info )
+    { vcs_info } 2> /dev/null \
+        && vcsExists="true" \
+        || vcsExists="false"
+    if [[ $vcsExists == "true" ]]; then
+        precmd_vcs_info() { vcs_info }
+        precmd_functions+=( precmd_vcs_info ) \
+            && zstyle ':vcs_info:git:*' formats '(%b)%f' \
+            && zstyle ':vcs_info:*' enable git
+    fi
     # RPROMPT=\$vcs_info_msg_0_
     # zstyle ':vcs_info:git:*' formats '(%b)%r%f'
-    zstyle ':vcs_info:git:*' formats '(%b)%f'
-    zstyle ':vcs_info:*' enable git
 fi
 # Git #
 
@@ -128,16 +133,18 @@ NEWLINE=$'\n'
 # https://unix.stackexchange.com/a/434697
 setopt PROMPT_SUBST
 # if [[ "$USER" == "root" && ( -n $isSSH ) ]]; then
-if [[ "$USER" == "root" && ( -n $SSH_CONNECTION ) ]]; then
-    PROMPT='${NEWLINE} %B%F{yellow}${USER}@${HOST}%f : %B%F{cyan}%3~%f%b %F{magenta}${vcs_info_msg_0_}${NEWLINE}%f %(?.%BSSH%f %F{red}ROOT%f %F{green}▶.%F{red}%? ▶)%f '
-elif [[ "$USER" == "root" ]]; then
+# LOGNAME seems to exist on macOS, and Debian and Alpine linux
+# USER doesn't appear to work on Alpine
+if [[ "$LOGNAME" == "root" && ( -n $SSH_CONNECTION ) ]]; then
+    PROMPT='${NEWLINE} %B%F{yellow}${LOGNAME}@${HOST}%f : %B%F{cyan}%3~%f%b %F{magenta}${vcs_info_msg_0_}${NEWLINE}%f %(?.%BSSH%f %F{red}ROOT%f %F{green}▶.%F{red}%? ▶)%f '
+elif [[ "$LOGNAME" == "root" ]]; then
     PROMPT='${NEWLINE} %B%F{cyan}%3~%f%b %F{magenta}${vcs_info_msg_0_}${NEWLINE}%f %(?.%B%F{red}ROOT%f %F{green}▶.%F{red}%? ▶)%f '
 elif [[ -n $SSH_CONNECTION ]]; then
 # elif [[ -n $isSSH ]]; then
-    PROMPT='${NEWLINE} %B%F{yellow}${USER}@${HOST}%f : %B%F{cyan}%3~%f%b %F{magenta}${vcs_info_msg_0_}${NEWLINE}%f %(?.%BSSH%f %F{green}▶.%F{red}%? ▶)%f '
+    PROMPT='${NEWLINE} %B%F{yellow}${LOGNAME}@${HOST}%f : %B%F{cyan}%3~%f%b %F{magenta}${vcs_info_msg_0_}${NEWLINE}%f %(?.%BSSH%f %F{green}▶.%F{red}%? ▶)%f '
 else
     # cyan current path with 2 parents, magenta git branch, new line green
     # prompt or red prompt if command exited with an error.
-    PROMPT='${NEWLINE} ${USER} : %B%F{cyan}%3~%f%b %F{magenta}${vcs_info_msg_0_}${NEWLINE}%f %(?.%F{green}▶.%F{red}%? ▶)%f '
+    PROMPT='${NEWLINE} ${LOGNAME} : %B%F{cyan}%3~%f%b %F{magenta}${vcs_info_msg_0_}${NEWLINE}%f %(?.%F{green}▶.%F{red}%? ▶)%f '
 fi
 # Prompt #
