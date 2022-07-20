@@ -82,3 +82,28 @@ logg() {
     /usr/bin/sudo /usr/bin/log show --info --debug --predicate \
         ${MSG} --last $2
 }
+
+# shortcut for managing Python virtual environments
+# $1 == virtual environment name OR create, delete, list, or freeze.
+# $2 == virtual environment if using a command
+venv() {
+    if [[ $1 == "create" ]]; then
+        python3 -m venv $HOME/.env/"$2"
+    elif [[ $1 == "delete" ]]; then
+        rm -rf $HOME/.env/"$2"
+    elif [[ $1 == "list" || $1 == "ls" ]]; then
+        ls $HOME/.env/"$2"
+    elif [[ $1 == "freeze" ]]; then
+        if [[ -z $2 ]]; then
+            python3 -m pip freeze > requirements.txt
+        else
+            python3 -m pip freeze > "$2"/requirements.txt
+        fi
+    elif [[ -z $1 || $1 == "-h" ]]; then
+        echo "venv help"
+        echo "Commands: create, delete, list, freeze."
+        echo "No commands activates the environment."
+    else
+        source $HOME/.env/"$1"/bin/activate
+    fi
+}
