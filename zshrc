@@ -1,9 +1,29 @@
-path+=("$HOME/Library/Mobile Documents/com~apple~CloudDocs/_usr/bin")
-path+=("$HOME/Documents/repos/bin")
+# !Add paths #
 path+=("/usr/local/sbin")
-export PATH
+# add artisan completions path
+# https://wikimatze.de/writing-zsh-completion-for-padrino/
+# https://scriptingosx.com/2019/07/moving-to-zsh-part-5-completions/
+# https://github.com/scriptingosx/mac-zsh-completions
+# https://unix.stackexchange.com/a/598210/307697
+# https://stackoverflow.com/a/39856256/7341009
+# https://github.com/zsh-users/zsh-completions/blob/master/zsh-completions-howto.org
+fpath+=(/usr/local/zsh-config/zsh/completions)
+# -- #
 
-# python virtualenvwrapper setup
+# !Functions & Alias'
+# import personal ZSH functions and alias'
+# https://superuser.com/a/1140782
+. "/usr/local/zsh-config/zsh/alias.zsh"
+. "/usr/local/zsh-config/zsh/functions.zsh"
+# -- #
+
+
+# !iTerm Shell Integration #
+[[ -f "${HOME}/.iterm2_shell_integration.zsh" ]] \
+    && source "${HOME}/.iterm2_shell_integration.zsh"
+# -- #
+
+# !Python virtualenvwrapper setup #
 if [[ -f "/usr/local/bin/virtualenvwrapper.sh" ]]; then
     VIRTUALENVWRAPPER_PYTHON=/usr/bin/python3
     export WORKON_HOME=$HOME/.virtualenvs
@@ -11,21 +31,7 @@ if [[ -f "/usr/local/bin/virtualenvwrapper.sh" ]]; then
     export VIRTUALENVWRAPPER_WORKON_CD=1
     source /usr/local/bin/virtualenvwrapper.sh
 fi
-
-
-# !Functions & Alias'
-# import personal ZSH functions and alias'
-# https://superuser.com/a/1140782
-. "/usr/local/zsh-config/zsh/alias.zsh"
-. "/usr/local/zsh-config/zsh/functions.zsh"
-# Functions & Alias'
-
-
-# iTerm Shell Integration #
-[[ -f "${HOME}/.iterm2_shell_integration.zsh" ]] \
-    && source "${HOME}/.iterm2_shell_integration.zsh"
-# iTerm Shell Integration #
-
+# -- #
 
 # !MISC #
 # disable paste escaping with curl
@@ -41,10 +47,10 @@ export WORDCHARS='-_.' # characters that will be considered part of a word
 
 # auto CD
 setopt AUTO_CD
-# MISC #
+# -- #
 
 
-# !Setup History #
+# !Configure History #
 # detailed ZSH history
 setopt EXTENDED_HISTORY
 # share history across multiple zsh sessions
@@ -80,7 +86,7 @@ bindkey "$terminfo[kcud1]" down-line-or-beginning-search # Down
 # so i'm going to try both!
 bindkey "^[[A" up-line-or-beginning-search # Up
 bindkey "^[[B" down-line-or-beginning-search # Down
-# Setup History #
+# -- #
 
 
 # !Setup Completion System #
@@ -97,7 +103,7 @@ zstyle ':completion:*' expand prefix suffix
 # enable the "more powerful" completion system
 # -u suppresses warnings, see https://stackoverflow.com/a/43544733
 autoload -Uz compinit && compinit -u
-# Setup Completion System #
+# -- #
 
 
 # !Git #
@@ -111,6 +117,7 @@ if [[ -f /usr/bin/sw_vers \
     || ! -f /usr/bin/sw_vers \
     && -f $(which git) ]]; then
     autoload -Uz vcs_info
+    # this will test and load vcs_info if it exists
     { vcs_info } 2> /dev/null \
         && vcsExists="true" \
         || vcsExists="false"
@@ -123,7 +130,7 @@ if [[ -f /usr/bin/sw_vers \
     # RPROMPT=\$vcs_info_msg_0_
     # zstyle ':vcs_info:git:*' formats '(%b)%r%f'
 fi
-# Git #
+# -- #
 
 
 # !Prompt #
@@ -133,8 +140,8 @@ NEWLINE=$'\n'
 # https://unix.stackexchange.com/a/434697
 setopt PROMPT_SUBST
 # if [[ "$USER" == "root" && ( -n $isSSH ) ]]; then
-# LOGNAME seems to exist on macOS, and Debian and Alpine linux
 # USER doesn't appear to work on Alpine
+# LOGNAME seems to exist on macOS, Debian, and Alpine
 if [[ "$LOGNAME" == "root" && ( -n $SSH_CONNECTION ) ]]; then
     PROMPT='${NEWLINE} %B%F{yellow}${LOGNAME}@${HOST}%f : %B%F{cyan}%3~%f%b %F{magenta}${vcs_info_msg_0_}${NEWLINE}%f %(?.%BSSH%f %F{red}ROOT%f %F{green}▶.%F{red}%? ▶)%f '
 elif [[ "$LOGNAME" == "root" ]]; then
@@ -147,4 +154,17 @@ else
     # prompt or red prompt if command exited with an error.
     PROMPT='${NEWLINE} ${LOGNAME} : %B%F{cyan}%3~%f%b %F{magenta}${vcs_info_msg_0_}${NEWLINE}%f %(?.%F{green}▶.%F{red}%? ▶)%f '
 fi
-# Prompt #
+# -- #
+
+# !Override imports #
+# .love - https://overcast.fm/+hYDenHcLc
+# load ZSH configs to override anything in this config
+# local-only ZSH file
+if [[ -f "$HOME/.love/local_rc.zsh" ]]; then
+    . "$HOME/.love/local_rc.zsh"
+fi
+# cloud ZSH file
+if [[ -f "$HOME/.love/cloud_rc.zsh" ]]; then
+    . "$HOME/.love/cloud_rc.zsh"
+fi
+# -- #
