@@ -1,0 +1,16 @@
+#compdef venv
+
+_venv() {
+    local -a commands
+    commands=(
+        "create:create new virtual environment"
+        "delete:delete a virtual environment"
+        "list:list a virtual environment"
+        "freeze:pip freeze installed modules"
+    )
+    if (( CURRENT == 2 )); then
+        _describe -t commands 'commands' commands
+    fi
+    
+    _arguments '*:venv:_files -W /Users/bryanh/.env -S ""'
+}
