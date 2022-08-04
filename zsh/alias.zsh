@@ -9,6 +9,10 @@ alias pg4="ping -c 4 google.com"
 alias pg100="ping -c 100 google.com"
 alias pingl="while true; do ping -c 100 google.com | tail -2; echo ''; done"
 
+# ps shortcuts
+alias pscpu="ps -axrcwwo user,pid,%cpu,%mem,state,start,time,comm"
+alias psmem="ps -axmcwwo user,pid,%cpu,%mem,state,start,time,comm"
+
 # git shortcuts
 alias gitta="git add "
 alias gitpa="git push origin alpha"
