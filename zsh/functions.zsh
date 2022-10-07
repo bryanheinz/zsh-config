@@ -65,28 +65,64 @@ auti () {
 }
 
 # functions to start/stop sshuttle
-proxyme() {
+proxyme () {
     sshuttle_conf="$config/sshuttle.conf"
     sshuttle @$sshuttle_conf -D $@
 }
 
-proxy_down() {
+proxy_down () {
     kill $(cat /tmp/sshuttle.pid)
 }
 
 # macOS function to show logs
 # $1 == search message
 # $2 == timeframe to search for logs
-logg() {
+logg () {
     MSG='eventMessage contains "'"$1"'"'
     /usr/bin/sudo /usr/bin/log show --info --debug --predicate \
         ${MSG} --last $2
 }
 
+tarty () {
+    if [[ $1 == "ls" ]]; then
+        tart list
+    elif [[ $1 == "fresh" ]]; then
+        tart clone $2 $3
+        tart run $3
+    elif [[ $1 == "info" ]]; then
+        cat "$HOME"/.tart/vms/"$2"/config.json
+    elif [[ $1 == "clear" ]]; then
+        for vm in $(tart list | grep "$2" | awk '{print $2}'); do
+            tart delete "$vm"
+        done
+    elif [[ $1 == "dup" ]]; then
+        baseTxt="$HOME/.tart/base.txt"
+        if [[ $2 == "-u" ]]; then
+            if [[ -n $3 ]]; then
+                printf "$3" > "$baseTxt"
+                return
+            else
+                rm "$baseTxt"
+            fi
+        fi
+        if [[ ! -f "$baseTxt" ]]; then
+            tart list
+            read "vmName?Enter the name for your base VM > "
+            printf "$vmName" > "$baseTxt"
+            echo "VM base name set."
+            return
+        fi
+        tart clone "$(cat $baseTxt)" $2
+        echo "used base $(cat $baseTxt)"
+    else
+        tart $@
+    fi
+}
+
 # shortcut for managing Python virtual environments
 # $1 == virtual environment name OR create, delete, list, or freeze.
 # $2 == virtual environment if using a command
-venv() {
+venv () {
     if [[ $1 == "create" ]]; then
         python3 -m venv $HOME/.env/"$2"
     elif [[ $1 == "delete" ]]; then
