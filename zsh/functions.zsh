@@ -113,7 +113,10 @@ tarty () {
             return
         fi
         tart clone "$(cat $baseTxt)" $2
-        echo "used base $(cat $baseTxt)"
+        echo "Used base VM $(cat $baseTxt)"
+        tart run $2
+    elif [[ $1 == "rm" ]]; then
+        tart delete "$3"
     else
         tart $@
     fi
