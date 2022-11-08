@@ -84,7 +84,7 @@ logg () {
 }
 
 tarty () {
-    tart_bin=$(which tart)
+    tart_bin=$(whereis -bq tart)
     if [[ $1 == "ls" ]]; then
         $tart_bin list
     elif [[ $1 == "fresh" ]]; then
