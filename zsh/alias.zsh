@@ -80,3 +80,6 @@ fi
 alias ..="cd .."
 alias grep="grep --color=auto -i"
 alias grepS="grep --color=auto"
+
+# custom function alias
+alias tart="tarty"
