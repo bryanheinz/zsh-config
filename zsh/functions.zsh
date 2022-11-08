@@ -127,7 +127,11 @@ tarty () {
 # $1 == virtual environment name OR create, delete, list OR ls, or freeze.
 # $2 == virtual environment if using a command
 venv () {
-    PY_VENV="${HOME}/.pyvenv"
+    # setup PY_VENV path if it's not already setup in .zshrc
+    if [[ -z $PY_VENV ]]; then
+        PY_VENV="${HOME}/.pyvenv"
+    fi
+    
     if [[ $1 == "create" ]]; then
         # python3 -m venv $HOME/.env/"$2"
         python3 -m venv "${PY_VENV}/$2"
