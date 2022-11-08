@@ -124,15 +124,19 @@ tarty () {
 }
 
 # shortcut for managing Python virtual environments
-# $1 == virtual environment name OR create, delete, list, or freeze.
+# $1 == virtual environment name OR create, delete, list OR ls, or freeze.
 # $2 == virtual environment if using a command
 venv () {
+    PY_VENV="${HOME}/.pyvenv"
     if [[ $1 == "create" ]]; then
-        python3 -m venv $HOME/.env/"$2"
+        # python3 -m venv $HOME/.env/"$2"
+        python3 -m venv "${PY_VENV}/$2"
     elif [[ $1 == "delete" ]]; then
-        rm -rf $HOME/.env/"$2"
+        # rm -rf $HOME/.env/"$2"
+        rm -rf "${PY_VENV}/$2"
     elif [[ $1 == "list" || $1 == "ls" ]]; then
-        ls $HOME/.env/"$2"
+        # ls $HOME/.env/"$2"
+        ls "${PY_VENV}/$2"
     elif [[ $1 == "freeze" ]]; then
         if [[ -z $2 ]]; then
             python3 -m pip freeze > requirements.txt
@@ -141,9 +145,10 @@ venv () {
         fi
     elif [[ -z $1 || $1 == "-h" ]]; then
         echo "venv help"
-        echo "Commands: create, delete, list, freeze."
+        echo "Commands: create, delete, list || ls, freeze."
         echo "No commands activates the environment."
     else
-        source $HOME/.env/"$1"/bin/activate
+        # source $HOME/.env/"$1"/bin/activate
+        source "${PY_VENV}/${1}/bin/activate"
     fi
 }
