@@ -12,5 +12,5 @@ _venv() {
         _describe -t commands 'commands' commands
     fi
     
-    _arguments '*:venv:_files -W /Users/bryanh/.env -S ""'
+    _arguments '*:venv:_files -W ${PY_VENV} -S ""'
 }
