@@ -84,16 +84,17 @@ logg () {
 }
 
 tarty () {
+    tart_bin=$(which tart)
     if [[ $1 == "ls" ]]; then
-        tart list
+        $tart_bin list
     elif [[ $1 == "fresh" ]]; then
-        tart clone $2 $3
-        tart run $3
+        $tart_bin clone $2 $3
+        $tart_bin run $3
     elif [[ $1 == "info" ]]; then
         cat "$HOME"/.tart/vms/"$2"/config.json
     elif [[ $1 == "clear" ]]; then
-        for vm in $(tart list | grep "$2" | awk '{print $2}'); do
-            tart delete "$vm"
+        for vm in $($tart_bin list | grep "$2" | awk '{print $2}'); do
+            $tart_bin delete "$vm"
         done
     elif [[ $1 == "dup" ]]; then
         baseTxt="$HOME/.tart/base.txt"
@@ -106,19 +107,19 @@ tarty () {
             fi
         fi
         if [[ ! -f "$baseTxt" ]]; then
-            tart list
+            $tart_bin list
             read "vmName?Enter the name for your base VM > "
             printf "$vmName" > "$baseTxt"
             echo "VM base name set."
             return
         fi
-        tart clone "$(cat $baseTxt)" $2
+        $tart_bin clone "$(cat $baseTxt)" $2
         echo "Used base VM $(cat $baseTxt)"
-        tart run $2
+        $tart_bin run $2
     elif [[ $1 == "rm" ]]; then
-        tart delete "$3"
+        $tart_bin delete "$3"
     else
-        tart $@
+        $tart_bin $@
     fi
 }
 
