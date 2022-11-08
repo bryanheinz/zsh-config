@@ -30,6 +30,8 @@ if [[ -f "/usr/local/bin/virtualenvwrapper.sh" ]]; then
     export PROJECT_HOME=$HOME/dev/python
     export VIRTUALENVWRAPPER_WORKON_CD=1
     source /usr/local/bin/virtualenvwrapper.sh
+else
+    export PY_VENV="${HOME}/.pyvenv"
 fi
 # -- #
 
