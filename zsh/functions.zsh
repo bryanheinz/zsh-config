@@ -46,7 +46,7 @@ portcheck () {
 
 # fix for nova's CLI
 _nova () {
-    nova $1
+    /usr/local/bin/nova $1
 }
 
 # youtube-dl command
