@@ -1,7 +1,3 @@
-# personal folder shortcuts
-dev="$HOME/Documents/dev"
-config="$HOME/Library/Mobile Documents/com~apple~CloudDocs/_usr/configs"
-
 # ping shortcuts
 alias pc="ping 1.1" # ping CloudFlare DNS
 alias pg="ping google.com"
