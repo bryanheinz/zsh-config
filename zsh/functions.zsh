@@ -117,7 +117,11 @@ tarty () {
         echo "Used base VM $(cat $baseTxt)"
         $tart_bin run $2
     elif [[ $1 == "rm" ]]; then
-        $tart_bin delete "$3"
+        if [[ -z "$2" ]]; then
+            echo "Missing VM to delete."
+            return 1
+        fi
+        $tart_bin delete "$2"
     else
         $tart_bin $@
     fi
