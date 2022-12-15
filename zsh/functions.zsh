@@ -88,6 +88,10 @@ tarty () {
     if [[ $1 == "ls" ]]; then
         $tart_bin list
     elif [[ $1 == "fresh" ]]; then
+        if [[ -e "$HOME"/.tart/"$3" ]]; then
+            echo "VM already exists."
+            return 1
+        fi
         $tart_bin clone $2 $3
         $tart_bin run $3
     elif [[ $1 == "info" ]]; then
@@ -112,6 +116,10 @@ tarty () {
             printf "$vmName" > "$baseTxt"
             echo "VM base name set."
             return
+        fi
+        if [[ -e "$HOME"/.tart/"$2" ]]; then
+            echo "VM already exists."
+            return 1
         fi
         $tart_bin clone "$(cat $baseTxt)" $2
         echo "Used base VM $(cat $baseTxt)"
