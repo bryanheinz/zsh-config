@@ -79,3 +79,7 @@ alias grepS="grep --color=auto"
 
 # custom function alias
 alias tart="tarty"
+
+# Egnyte alias
+# https://helpdesk.egnyte.com/hc/en-us/articles/7126003875725
+alias egcli="/Applications/Egnyte.app/Contents/MacOS/Egnyte --cli"
