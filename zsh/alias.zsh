@@ -42,6 +42,7 @@ alias certcat="openssl x509 -text -noout -in"
 alias dip="docker image prune"
 alias dps="docker ps --format 'table {{.ID}}\t{{.Names}}\t{{.Image}}\t{{.Status}}'"
 alias dpsa="docker ps -a --format 'table {{.ID}}\t{{.Names}}\t{{.Image}}\t{{.Status}}'"
+alias dscpu="docker stats --format '{{.Name}}: {{.CPUPerc}}'"
 
 # docker compose shortcuts
 alias dc="docker compose"
