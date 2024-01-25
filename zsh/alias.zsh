@@ -52,7 +52,7 @@ alias dscpu="docker stats --format '{{.Name}}: {{.CPUPerc}}'"
 
 # docker compose shortcuts
 alias dc="docker compose"
-if [[ -n $(which docker-compose) ]]; then
+if [[ -f $(which docker-compose) ]]; then
     alias dcu="docker-compose up -d"
     alias dcd="docker-compose down"
     alias dcb="docker-compose build"
