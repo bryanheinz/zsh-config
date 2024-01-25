@@ -52,10 +52,17 @@ alias dscpu="docker stats --format '{{.Name}}: {{.CPUPerc}}'"
 
 # docker compose shortcuts
 alias dc="docker compose"
-alias dcu="docker-compose up -d"
-alias dcd="docker-compose down"
-alias dcb="docker-compose build"
-alias dcufr="docker-compose up -d --force-recreate"
+if [[ -n $(which docker-compose) ]]; then
+    alias dcu="docker-compose up -d"
+    alias dcd="docker-compose down"
+    alias dcb="docker-compose build"
+    alias dcufr="docker-compose up -d --force-recreate"
+else
+    alias dcu="docker compose up -d"
+    alias dcd="docker compose down"
+    alias dcb="docker compose build"
+    alias dcufr="docker compose up -d --force-recreate"
+fi
 
 # shortcut to get WAN IP address
 alias getip="curl ifconfig.co"
