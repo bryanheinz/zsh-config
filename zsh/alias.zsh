@@ -100,3 +100,7 @@ alias tart="tarty"
 # Egnyte alias
 # https://helpdesk.egnyte.com/hc/en-us/articles/7126003875725
 alias egcli="/Applications/Egnyte.app/Contents/MacOS/Egnyte --cli"
+
+# Reload the shell (i.e. invoke as a login shell)
+# via https://github.com/joeblau/dotfiles/blob/master/topics/aliases/.aliases
+alias reload='exec $SHELL -l'
