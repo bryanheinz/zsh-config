@@ -93,7 +93,7 @@ tarty () {
             return 1
         fi
         $tart_bin clone $2 $3
-        $tart_bin run $3
+        $tart_bin run --dir=Downloads:~/Downloads $3
     elif [[ $1 == "info" ]]; then
         cat "$HOME"/.tart/vms/"$2"/config.json
     elif [[ $1 == "clear" ]]; then
@@ -123,8 +123,8 @@ tarty () {
         fi
         $tart_bin clone "$(cat $baseTxt)" $2
         echo "Used base VM $(cat $baseTxt)"
-        $tart_bin run $2
-    elif [[ $1 == "rm" ]]; then
+        $tart_bin run --dir=Downloads:~/Downloads $2
+    elif [[ $1 == "rm" || $1 == "delete" ]]; then
         if [[ -z "$2" ]]; then
             echo "Missing VM to delete."
             return 1
@@ -147,7 +147,7 @@ venv () {
     if [[ $1 == "create" ]]; then
         # python3 -m venv $HOME/.env/"$2"
         python3 -m venv "${PY_VENV}/$2"
-    elif [[ $1 == "delete" ]]; then
+    elif [[ $1 == "delete" || $1 == "rm" ]]; then
         # rm -rf $HOME/.env/"$2"
         rm -rf "${PY_VENV}/$2"
     elif [[ $1 == "list" || $1 == "ls" ]]; then
@@ -166,5 +166,21 @@ venv () {
     else
         # source $HOME/.env/"$1"/bin/activate
         source "${PY_VENV}/${1}/bin/activate"
+    fi
+}
+
+gw () {
+    if [[ -f /etc/issue ]]; then
+        ip route show default | grep -oP 'via \K\S+'
+    else
+        route -n get default | awk '/gateway/ {print $2}'
+    fi
+}
+
+lan () {
+    if [[ -f $(which ipconfig) ]]; then
+        ipconfig getifaddr $(route -n get default | awk '/interface: / {print $2}')
+    else
+        ip route get $(gw) | grep -oP 'src \K\S+'
     fi
 }

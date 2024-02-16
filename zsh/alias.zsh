@@ -4,25 +4,29 @@ alias pg="ping google.com"
 alias pg4="ping -c 4 google.com"
 alias pg100="ping -c 100 google.com"
 alias pingl="while true; do ping -c 100 google.com | tail -2; echo ''; done"
-if [[ -e /sbin/route ]]; then
-    alias pgw="ping $(route -n get default | awk '/gateway/ {print $2}')"
-else
-    alias pgw="ping $(ip route | awk '/default/ {print $3}')"
-fi
 
+# use my gateway function to ping
+# see https://github.com/bryanheinz/zsh-config/blob/main/zsh/functions.zsh
+alias pgw='ping $(gw)'
+
+# shortcut to get WAN IP address
+alias getip="curl ifconfig.co"
+alias wan="curl ifconfig.co"
+# there's a `lan` function as well
 
 # ps shortcuts
 alias pscpu="ps -axrcwwo user,pid,%cpu,%mem,state,start,time,comm"
 alias psmem="ps -axmcwwo user,pid,%cpu,%mem,state,start,time,comm"
 
 # git shortcuts
-alias gitta="git add "
+alias gitta="git add"
 alias gitpa="git push origin alpha"
 alias gitreset="git reset --hard HEAD"
 alias gitcom="git commit -m"
 
-# personal- copy my computer's local SSH public key
+# copy my computer's local SSH public key
 alias getkey="cat ~/.ssh/localkey.pub | pbcopy"
+alias keyme="cat ~/.ssh/localkey.pub | pbcopy"
 
 # use pwgen to generate 10x 15 character passwords
 alias getpass="pwgen -c -n -y -s -1 15 10"
@@ -31,7 +35,7 @@ alias passme="pwgen -c -n -y -s -1 15 10"
 # nmap scan all ports
 alias scanall="nmap -p 1-65535"
 # nmap function correction
-alias checkport="portcheck"
+alias checkport='portcheck'
 
 # get an applications team ID for macOS profiles
 alias get_team_id="/usr/bin/codesign -dv --verbose=4"
@@ -64,9 +68,6 @@ else
     alias dcufr="docker compose up -d --force-recreate"
 fi
 
-# shortcut to get WAN IP address
-alias getip="curl ifconfig.co"
-
 # munki shortcuts
 alias msu="/usr/local/munki/managedsoftwareupdate"
 alias msui="/usr/local/munki/managedsoftwareupdate --installonly"
@@ -87,7 +88,9 @@ if [[ -f /etc/issue ]]; then
 else
     alias ls="ls -G"
 fi
+
 alias ..="cd .."
+alias ...="cd ../.."
 alias grep="grep --color=auto -i"
 alias grepS="grep --color=auto"
 
