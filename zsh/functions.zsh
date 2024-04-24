@@ -154,10 +154,17 @@ venv () {
         # ls $HOME/.env/"$2"
         ls "${PY_VENV}/$2"
     elif [[ $1 == "freeze" ]]; then
-        if [[ -z $2 ]]; then
-            python3 -m pip freeze > requirements.txt
+        if [[ -z $VIRTUAL_ENV ]]; then
+            if [[ -z $2 ]]; then
+                pip freeze > requirements.txt
+                echo "Saved requirements to $(pwd)/requirements.txt"
+            else
+                pip freeze > "$2"/requirements.txt
+                echo "Saved requirements to $2/requirements.txt"
+            fi
         else
-            python3 -m pip freeze > "$2"/requirements.txt
+            pip freeze > "$VIRTUAL_ENV"/requirements.txt
+            echo "Saved requirements to $VIRTUAL_ENV/requirements.txt"
         fi
     elif [[ -z $1 || $1 == "-h" ]]; then
         echo "venv help"
