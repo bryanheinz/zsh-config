@@ -154,21 +154,41 @@ venv () {
         # ls $HOME/.env/"$2"
         ls "${PY_VENV}/$2"
     elif [[ $1 == "freeze" ]]; then
-        if [[ -z $VIRTUAL_ENV ]]; then
-            if [[ -z $2 ]]; then
-                pip freeze > requirements.txt \
-                    && echo "Saved requirements to $(pwd)/requirements.txt"
-            else
-                pip freeze > "$2"/requirements.txt \
-                    && echo "Saved requirements to $2/requirements.txt"
-            fi
-        else
+        if [[ $2 ]]; then
+            # location was specified
+            python3 -m pip freeze > "$2"/requirements.txt \
+                && echo "Saved requirements to $2/requirements.txt"
+        elif [[ $VIRTUAL_ENV ]]; then
+            # virtual env, no location specified
             python3 -m pip freeze > "$VIRTUAL_ENV"/requirements.txt \
                 && echo "Saved requirements to $VIRTUAL_ENV/requirements.txt"
+        else
+            # no virtual env, no location specified
+            python3 -m pip freeze > requirements.txt \
+                && echo "Saved requirements to $(pwd)/requirements.txt"
+        fi
+    elif [[ $1 == "upgrade" ]]; then
+        # validate a virtual environment was given
+        if [[ $2 ]]; then
+            # --upgrade doesn't work when calling a symlink, this will get the
+            # true Python path.
+            py_bin=$(readlink -f "$(which python3)")
+            if [[ $("$py_bin" -m venv --upgrade --upgrade-deps "${PY_VENV}/${2}") ]]
+                then
+                if [[ -e "${PY_VENV}/${2}/requirements.txt" ]]; then
+                    source "${PY_VENV}/${2}/bin/activate"
+                    pip install -r "${PY_VENV}/${2}/requirements.txt"
+                    deactivate
+                else
+                    echo "requirements.txt file missing, will need to manually reinstall dependencies."
+                fi
+            fi
+        else
+            echo "missing virtual environment name."
         fi
     elif [[ -z $1 || $1 == "-h" ]]; then
         echo "venv help"
-        echo "Commands: create, delete, list || ls, freeze."
+        echo "Commands: create, delete, list || ls, freeze, upgrade."
         echo "No commands activates the environment."
     else
         # source $HOME/.env/"$1"/bin/activate
