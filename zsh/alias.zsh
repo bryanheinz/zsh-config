@@ -61,11 +61,15 @@ if [[ -f $(which docker-compose) ]]; then
     alias dcd="docker-compose down"
     alias dcb="docker-compose build"
     alias dcufr="docker-compose up -d --force-recreate"
+    alias dcp="docker-compose pull"
+    alias dcl="docker-compose logs"
 else
     alias dcu="docker compose up -d"
     alias dcd="docker compose down"
     alias dcb="docker compose build"
     alias dcufr="docker compose up -d --force-recreate"
+    alias dcp="docker compose pull"
+    alias dcl="docker compose logs"
 fi
 
 # munki shortcuts
