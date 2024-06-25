@@ -143,10 +143,13 @@ venv () {
     if [[ -z $PY_VENV ]]; then
         PY_VENV="${HOME}/.pyvenv"
     fi
+    # Python 3.12.2 breaks virtual environment stuff when calling python from a
+    # symlink. This works around that by finding the real path to Python.
+    py_bin=$(readlink -f "$(which python3)")
     
     if [[ $1 == "create" ]]; then
         # python3 -m venv $HOME/.env/"$2"
-        python3 -m venv "${PY_VENV}/$2"
+        "$py_bin" -m venv "${PY_VENV}/$2"
     elif [[ $1 == "delete" || $1 == "rm" ]]; then
         # rm -rf $HOME/.env/"$2"
         rm -rf "${PY_VENV}/$2"
@@ -156,23 +159,20 @@ venv () {
     elif [[ $1 == "freeze" ]]; then
         if [[ $2 ]]; then
             # location was specified
-            python3 -m pip freeze > "$2"/requirements.txt \
+            "$py_bin" -m pip freeze > "$2"/requirements.txt \
                 && echo "Saved requirements to $2/requirements.txt"
         elif [[ $VIRTUAL_ENV ]]; then
             # virtual env, no location specified
-            python3 -m pip freeze > "$VIRTUAL_ENV"/requirements.txt \
+            "$py_bin" -m pip freeze > "$VIRTUAL_ENV"/requirements.txt \
                 && echo "Saved requirements to $VIRTUAL_ENV/requirements.txt"
         else
             # no virtual env, no location specified
-            python3 -m pip freeze > requirements.txt \
+            "$py_bin" -m pip freeze > requirements.txt \
                 && echo "Saved requirements to $(pwd)/requirements.txt"
         fi
     elif [[ $1 == "upgrade" ]]; then
         # validate a virtual environment was given
         if [[ $2 ]]; then
-            # --upgrade doesn't work when calling a symlink, this will get the
-            # true Python path.
-            py_bin=$(readlink -f "$(which python3)")
             if [[ $("$py_bin" -m venv --upgrade --upgrade-deps "${PY_VENV}/${2}") ]]
                 then
                 if [[ -e "${PY_VENV}/${2}/requirements.txt" ]]; then
