@@ -4,9 +4,13 @@ _venv() {
     local -a commands
     commands=(
         "create:create new virtual environment"
+        "recreate:recreates an existing virtual environment"
         "delete:delete a virtual environment"
+        "rm:delete a virtual environment"
         "list:list a virtual environment"
+        "ls:list a virtual environment"
         "freeze:pip freeze installed modules"
+        "upgrade:attempt to upgrade an existing virtual environment"
     )
     if (( CURRENT == 2 )); then
         _describe -t commands 'commands' commands
