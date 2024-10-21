@@ -143,24 +143,44 @@ venv () {
     if [[ -z $PY_VENV ]]; then
         PY_VENV="${HOME}/.pyvenv"
     fi
+    
     # Python 3.12.2 breaks virtual environment stuff when calling python from a
     # symlink. This works around that by finding the real path to Python.
-    py_bin=$(readlink -f "$(which python3)")
+    # Can now also specify a Python path as $PYTHON_BIN
+    if [[ -z $PYTHON_BIN ]]; then
+        py_bin=$(readlink -f "$(which python3)")
+    else
+        py_bin=$(readlink -f "$PYTHON_BIN")
+    fi
     
     if [[ $1 == "create" ]]; then
-        # python3 -m venv $HOME/.env/"$2"
-        "$py_bin" -m venv "${PY_VENV}/$2"
+        "$py_bin" -m venv "${PY_VENV}/${2}"
+    elif [[ $1 == "recreate" ]]; then
+        # delete and recreate the venv and re-install its requirements
+        if [[ -f "$PY_VENV"/"$2"/requirements.txt ]]; then
+            mv "$PY_VENV"/"$2"/requirements.txt "$PY_VENV"/"$2_requirements".txt
+        fi
+        "$py_bin" -m venv --clear "$PY_VENV"/"$2"
+        if [[ -f "$PY_VENV"/"$2_requirements.txt" ]]; then
+            mv "$PY_VENV"/"$2_requirements".txt "$PY_VENV"/"$2"/requirements.txt
+            source "$PY_VENV"/"$2"/bin/activate
+            pip install -r "$PY_VENV"/"$2"/requirements.txt
+            deactivate
+        fi
     elif [[ $1 == "delete" || $1 == "rm" ]]; then
-        # rm -rf $HOME/.env/"$2"
-        rm -rf "${PY_VENV}/$2"
+        if [[ -n "$PY_VENV" && -n "$2" ]]; then
+            rm -rf "$PY_VENV"/"$2"
+        else
+            echo "Bad Python virtual environment path."
+            false
+        fi
     elif [[ $1 == "list" || $1 == "ls" ]]; then
-        # ls $HOME/.env/"$2"
-        ls "${PY_VENV}/$2"
+        ls "${PY_VENV}/${2}"
     elif [[ $1 == "freeze" ]]; then
-        if [[ $2 ]]; then
+        if [[ ${2} ]]; then
             # location was specified
-            "$py_bin" -m pip freeze > "$2"/requirements.txt \
-                && echo "Saved requirements to $2/requirements.txt"
+            "$py_bin" -m pip freeze > "${2}"/requirements.txt \
+                && echo "Saved requirements to ${2}/requirements.txt"
         elif [[ $VIRTUAL_ENV ]]; then
             # virtual env, no location specified
             "$py_bin" -m pip freeze > "$VIRTUAL_ENV"/requirements.txt \
@@ -176,7 +196,7 @@ venv () {
             if [[ $("$py_bin" -m venv --upgrade --upgrade-deps "${PY_VENV}/${2}") ]]
                 then
                 if [[ -e "${PY_VENV}/${2}/requirements.txt" ]]; then
-                    source "${PY_VENV}/${2}/bin/activate"
+                    source "$PY_VENV"/"$2"/bin/activate
                     pip install -r "${PY_VENV}/${2}/requirements.txt"
                     deactivate
                 else
@@ -185,14 +205,14 @@ venv () {
             fi
         else
             echo "missing virtual environment name."
+            false
         fi
     elif [[ -z $1 || $1 == "-h" ]]; then
         echo "venv help"
-        echo "Commands: create, delete, list || ls, freeze, upgrade."
+        echo "Commands: create, recreate, delete || rm, list || ls, freeze, upgrade."
         echo "No commands activates the environment."
     else
-        # source $HOME/.env/"$1"/bin/activate
-        source "${PY_VENV}/${1}/bin/activate"
+        source "$PY_VENV"/"$1"/bin/activate
     fi
 }
 
